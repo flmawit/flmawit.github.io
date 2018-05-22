@@ -16,7 +16,7 @@
 	border-color: #ffffff;
 }
 .sapMIBar.sapMHeader-CTX{
-	background-image: url("/webapp/img/ideas/see.gif");
+	background-image: url("/img/ideas/see.gif");
 	background-repeat: no-repeat;
 	background-size: 100%;
 	background-position-y: -20rem;
@@ -30,7 +30,7 @@
 	height: 15rem;
 }
 .sapUiRootBackground, .sapMShellGlobalOuterBackground {
-	background-image: url("/webapp/img/footer_lodyas.png");
+	background-image: url("/img/footer_lodyas.png");
 	background-repeat: repeat;
 	webkit-animation:100s scroll infinite linear;
 	-moz-animation:100s scroll infinite linear;
@@ -94,7 +94,7 @@
 	max-width: 37%;
 }
 .sapMIBar-CTX .sapMTitle {
-	background-image: url(/webapp/img/logo.png);
+	background-image: url(/img/logo.png);
 
 
 	/*color: #1ED760;
