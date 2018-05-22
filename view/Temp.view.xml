@@ -8,7 +8,7 @@
 		<pages>
 			<Page title="{i18n>spotifyStatics}">
 				<headerContent>
-					<Image src="img/Bild1.png" class="logo"></Image>
+					<Image src="/img/Bild1.png" class="logo"></Image>
 					<Button id="idLoginButton" visible="true" text="Login" type="Emphasized" class="tinyPaddingTop"
 							press="fnHandleLoginPress" busyIndicatorDelay="0"/>
 					<Button id="idUserButton" visible="false" iconFirst="true" icon="sap-icon://customer"
