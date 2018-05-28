@@ -6,7 +6,7 @@
           xmlns:slider="sap.m.Slider">
 	<App>
 		<pages>
-			<Page title="{i18n>spotifyStatics}">
+			<Page>
 				<headerContent>
 					<Image src="img/Bild1.png" class="logo"></Image>
 					<Button id="idLoginButton" visible="true" text="Login" type="Emphasized" class="tinyPaddingTop"

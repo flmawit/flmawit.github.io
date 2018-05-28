@@ -102,9 +102,9 @@ span.sapMBtnInner.sapMBtnEmphasized{
 	text-shadow: 0 0 0.0rem #000000;
 }
 .logo {
-	margin-right: 38rem;
+	margin-right: 10rem;
 	margin-top: -7rem;
-	max-width: 37%;
+	max-width: 60rem;
 }
 .sapMIBar-CTX .sapMTitle {
 	background-image: url(/img/logo.png);
@@ -449,5 +449,5 @@ html.sap-desktop
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	width: 25%;
+	width: 30rem;
 }
