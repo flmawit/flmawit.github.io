@@ -4,7 +4,7 @@ sap.ui.define([
 ], function(Controller, MessageToast) {
 	"use strict";
 
-	return Controller.extend("com.wuerth.itensis.spotifyStatics.controller.Temp", {
+	return Controller.extend("com.wuerth.itensis.spotifyStatics.controller.SpotifyStatics", {
 
 		//oSong : {},
 		/*
@@ -19,6 +19,7 @@ sap.ui.define([
 			this.lastRan
 		},
 		onAfterRendering: function () {
+			var spinnerImg = document.getElementById("loadingSpinner").style.display = "none";
 			// Deinen code habe ich in die Funktion "fnLoadData" ganz unten verschoben, diese wird ausgeführt wenn du auf den "Daten Laden" Knopf drückst (nach dem anmelden)
 
 			// Check if there is a valid access token in local storage. If there is, show the user as logged in.
@@ -32,6 +33,11 @@ sap.ui.define([
 					this._fnLoadGenre()
 					this.byId("idLoginButton").setVisible(false);
 					this.byId("idUserButton").setVisible(true);
+					this.byId("idPlayerContent").setVisible(true);
+					this.byId("idLoginMessage").setVisible(false);
+					this.byId("idPlayInformation").setVisible(true);
+					this.byId("searchField").setVisible(true);
+					this.byId("idIconTabBar").setVisible(true);
 					this.getView().setModel(new sap.ui.model.json.JSONModel(response), "userModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "playModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "albumModel");
@@ -181,7 +187,7 @@ sap.ui.define([
 			console.log(artistId)
 			var myAccessToken = localStorage.getItem("accessToken");
 			this.playRandomArtistSong(myAccessToken, artistId)
-			},
+		},
 		playRandomArtistSong: function (accessToken, artistId) {
 			var that = this
 			this._getTopArtistSong(artistId, accessToken).then(function(response) {
@@ -389,7 +395,7 @@ sap.ui.define([
 				'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
 			);
 			this._reload()
-			},
+		},
 		/**
 		 * Fetches user information from the spotify api.
 		 *
@@ -402,6 +408,11 @@ sap.ui.define([
 				this._getUserInformation(accessToken).then((response) => {
 					this.byId("idLoginButton").setVisible(false);
 					this.byId("idUserButton").setVisible(true);
+					this.byId("idPlayerContent").setVisible(true);
+					this.byId("idLoginMessage").setVisible(false);
+					this.byId("idPlayInformation").setVisible(true);
+					this.byId("searchField").setVisible(true);
+					this.byId("idIconTabBar").setVisible(true);
 
 					this._fnLoadData()
 					this._fnLoadGenre()
@@ -430,7 +441,25 @@ sap.ui.define([
 				var item = oSuggestionModel.getProperty(test)
 				console.log(test)
 				console.log(item)
-
+				if (item.type === "track") {
+					var track = item.uri
+					let oSongContext = {
+						"context_uri": item.album.uri,
+						"offset": {
+							"position": item.track_number -1
+						}
+					}
+					var myAccessToken = localStorage.getItem("accessToken")
+					this._playTrack(oSongContext, myAccessToken)
+					console.log("track")
+				}
+				else {
+					var myAccessToken = localStorage.getItem("accessToken")
+					var aArtistId = item.id
+					this.playRandomArtistSong (myAccessToken, aArtistId)
+					console.log("artist")
+				}
+				this.byId("searchField").setValue("")
 			} else {
 				oSearchControl.setBusy(true);
 				var myAccessToken = localStorage.getItem("accessToken")
@@ -843,12 +872,12 @@ sap.ui.define([
 			return new Promise(function (resolve) {
 				that._getPlayback(myAccessToken).then(function(response) {
 					oPlayModel.setProperty("/", response);
-				if (response.item.uri !== that.nowPlaying){
-					that.nowPlaying = response.item.uri
-					that.onFetchAlbumInfo();
-					var id = oPlayModel.getProperty("/item/id")
-					that._getTempoBackground(myAccessToken, id);
-				}
+					if (response.item.uri !== that.nowPlaying){
+						that.nowPlaying = response.item.uri
+						that.onFetchAlbumInfo();
+						var id = oPlayModel.getProperty("/item/id")
+						that._getTempoBackground(myAccessToken, id);
+					}
 					resolve();
 				})
 			})
@@ -871,22 +900,22 @@ sap.ui.define([
 			})
 		},
 		_fnLoadGenre: function () {
-				var that = this
-				this.byId("artist").setVisible(true);
-				var myAccessToken = localStorage.getItem("accessToken");
-				this._getGenre(myAccessToken, this.chosenTimeRange).then(function(response) {
-					console.log(response)
-					var oGenre = new sap.ui.model.json.JSONModel(response.items);
-					that.byId("artist").setBusy(false);
-					that.getView().setModel(oGenre, "genreModel");
-					console.log(that.getView().getModel("genreModel"));
-					that.byId("id4WeekButton").setEnabled(true);
-					that.byId("id1YearButton").setEnabled(true);
-					that.byId("id6MonthsButton").setEnabled(true);
-					that._diagramGenres();
-				})},
-		});
-		/*
-		* End of Helper Functions
-		*/
+			var that = this
+			this.byId("artist").setVisible(true);
+			var myAccessToken = localStorage.getItem("accessToken");
+			this._getGenre(myAccessToken, this.chosenTimeRange).then(function(response) {
+				console.log(response)
+				var oGenre = new sap.ui.model.json.JSONModel(response.items);
+				that.byId("artist").setBusy(false);
+				that.getView().setModel(oGenre, "genreModel");
+				console.log(that.getView().getModel("genreModel"));
+				that.byId("id4WeekButton").setEnabled(true);
+				that.byId("id1YearButton").setEnabled(true);
+				that.byId("id6MonthsButton").setEnabled(true);
+				that._diagramGenres();
+			})},
+	});
+	/*
+	* End of Helper Functions
+	*/
 });

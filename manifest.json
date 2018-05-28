@@ -38,7 +38,7 @@
 
   "sap.ui5": {
     "rootView": {
-      "viewName": "com.wuerth.itensis.spotifyStatics.view.Temp",
+      "viewName": "com.wuerth.itensis.spotifyStatics.view.SpotifyStatics",
       "type": "XML"
     },
     "dependencies": {
@@ -79,13 +79,13 @@
       "routes": [
         {
           "pattern": "",
-          "name": "temp",
-          "target": "temp"
+          "name": "default",
+          "target": "default"
         }
       ],
       "targets": {
-        "temp": {
-          "viewName": "Temp",
+        "default": {
+          "viewName": "SpotifyStatics",
           "viewLevel": 1
         },
         "notFound": {

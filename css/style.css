@@ -11,9 +11,18 @@
 .sapMBtnText>.sapMBtnIcon {
 	color: #ffffff;
 }
- span.sapMBtnInner.sapMBtnEmphasized{
+.text {
+	margin-left: 30rem;
+}
+span.sapMBtnInner.sapMBtnEmphasized{
+	color: #1ed760;
+	text-shadow: none;
 	background: #ffffff;
-	border-color: #ffffff;
+	border-color: #ffffff
+;
+}
+.sapMFlexItemAlignAuto {
+	align-self: center;
 }
 .sapMIBar.sapMHeader-CTX{
 	background-image: url("/img/ideas/see.gif");
@@ -22,6 +31,10 @@
 	background-position-y: -20rem;
 	background-color: #484848;
 	height: 15rem;
+}
+.sapMIBar-CTX .sapMBtn:hover>.sapMBtnHoverable.sapMBtnEmphasized:not(.sapMBtnActive) {
+	background-color: #1ed760;
+	border-color: #1ed760;
 }
 .sapMPage>.sapMPageHeader + section, .sapMPage>.sapMPageSubHeader + section, .sapMPage>.sapMPageHeader + .sapUiHiddenPlaceholder + section {
 	top: 15rem;
@@ -275,7 +288,7 @@ html.sap-desktop
 	padding-left: 10.5rem;
 }
 .slider {
-	padding-left: 11rem;
+	padding-left: 7.5rem;
 }
 .albumTitles {
 	padding-left: 10rem;
@@ -299,6 +312,14 @@ html.sap-desktop
 }
 .song {
 	color: #1ed760;
+}
+.FirstLoadTitle {
+	color: #ffffff;
+	font-size: 20px;
+}
+.FirstLoadText {
+	color: #ffffff;
+	font-size: 16px;
 }
 .player {
 	margin-top: 5rem;
@@ -421,6 +442,12 @@ html.sap-desktop
 	margin-left: 30rem;
 }
 .labels {
-	margin-bottom: 1rem;
+	margin-bottom: -1rem;
 }
 
+#loadingSpinner {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 25%;
+}

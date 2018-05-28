@@ -1,21 +1,27 @@
-<mvc:View controllerName="com.wuerth.itensis.spotifyStatics.controller.Temp" xmlns:html="http://www.w3.org/1999/xhtml"
-		  xmlns:mvc="sap.ui.core.mvc"
-		  displayBlock="true"
-		  xmlns="sap.m"
-		  xmlns:chart="sap.suite.ui.microchart"
-		  xmlns:slider="sap.m.Slider">
+<mvc:View controllerName="com.wuerth.itensis.spotifyStatics.controller.SpotifyStatics" xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:mvc="sap.ui.core.mvc"
+          displayBlock="true"
+          xmlns="sap.m"
+          xmlns:chart="sap.suite.ui.microchart"
+          xmlns:slider="sap.m.Slider">
 	<App>
 		<pages>
 			<Page title="{i18n>spotifyStatics}">
 				<headerContent>
-					<Image src="/img/Bild1.png" class="logo"></Image>
+					<Image src="img/Bild1.png" class="logo"></Image>
 					<Button id="idLoginButton" visible="true" text="Login" type="Emphasized" class="tinyPaddingTop"
-							press="fnHandleLoginPress" busyIndicatorDelay="0"/>
+					        press="fnHandleLoginPress" busyIndicatorDelay="0"/>
 					<Button id="idUserButton" visible="false" iconFirst="true" icon="sap-icon://customer"
-							text="{userModel>/id}" enabled="false" class="tinyPaddingTop"/>
+					        text="{userModel>/id}" enabled="false" class="tinyPaddingTop"/>
 				</headerContent>
 				<content>
-					<HBox width="100%" height="25rem" class="player">
+					<HBox width="100%" height="25rem" class="player" id="idLoginMessage" visible="true">
+						<VBox class="text">
+							<Text class="FirstLoadTitle" text="Welcome"></Text>
+							<Text class="FirstLoadText" text="Please Login to show your Spotify Statics."></Text>
+						</VBox>
+					</HBox>
+					<HBox width="100%" height="25rem" class="player" id="idPlayerContent" visible="false">
 						<VBox>
 							<Image src="{playModel>/item/album/images/1/url}" class="images" id="Cover"></Image>
 							<HBox>
@@ -27,14 +33,14 @@
                                 </SegmentedButton>--><!--is_playing-->
 								<Button press="onPressBack" icon="sap-icon://media-rewind" class="controler"></Button>
 								<Button width="6rem" icon="sap-icon://media-play" id="idPlay"
-										visible="{= !${playModel>/is_playing}}" enabled="false"
-										press="onPressPlay"></Button>
+								        visible="{= !${playModel>/is_playing}}" enabled="false"
+								        press="onPressPlay"></Button>
 								<Button width="6rem" icon="sap-icon://media-pause" id="idPause"
-										visible="{playModel>/is_playing}" enabled="false" press="onPauseTrack"></Button>
+								        visible="{playModel>/is_playing}" enabled="false" press="onPauseTrack"></Button>
 								<Button press="onPressNext" icon="sap-icon://media-forward"></Button>
 							</HBox>
 							<Slider liveChange="onVolumeChange" getMax="100" getMin="0"
-									value="{playModel>/device/volume_percent}" width="22rem" class="slider"></Slider>
+							        value="{playModel>/device/volume_percent}" width="22rem" class="slider"></Slider>
 						</VBox>
 						<VBox class="albumTitles">
 							<Title text="{playModel>/item/artists/0/name} - {albumModel>/name}"></Title>
@@ -46,12 +52,12 @@
 									height="80%"
 									width="100%">
 								<List id="album"
-									  items="{albumModel>/tracks}"
-									  horizontal="true"
-									  vertical="true"
-									  mode="SingleSelectMaster"
-									  focusable="true"
-									  selectionChange="onPressList" >
+								      items="{albumModel>/tracks}"
+								      horizontal="true"
+								      vertical="true"
+								      mode="SingleSelectMaster"
+								      focusable="true"
+								      selectionChange="onPressList" >
 									<items>
 										<StandardListItem
 												title="{albumModel>track_number} - {albumModel>name}"></StandardListItem>
@@ -60,7 +66,7 @@
 							</ScrollContainer>
 						</VBox>
 					</HBox>
-					<HBox>
+					<HBox id="idPlayInformation" visible="false">
 						<HBox width="20%" justifyContent="End" alignItems="End">
 							<Label text="{timeModel>/progress}" class="labels"></Label>
 						</HBox>
@@ -69,28 +75,30 @@
 								<Label text="{playModel>/item/name} - {playModel>/item/artists/0/name}"></Label>
 							</HBox>
 							<Slider liveChange="onProgressChange" getMax="100" getMin="0"
-									value="{= ( 100 / ${playModel>/item/duration_ms} ) * ${playModel>/progress_ms} }" width="100%" class=""></Slider>
+							        value="{= ( 100 / ${playModel>/item/duration_ms} ) * ${playModel>/progress_ms} }" width="45rem" class=""></Slider>
 						</VBox>
 						<HBox width="20%" justifyContent="Start" alignItems="End">
 							<Label text="{timeModel>/duration}" class="labels"></Label>
 						</HBox>
 					</HBox>
-						<SearchField width="90%" class="sapUiSmallMargin"
-									 search="fnHandleSearch"
-									 enableSuggestions="true"
-									 suggestionItems="{
+					<SearchField width="90%" class="sapUiSmallMargin"
+					             search="fnHandleSearch"
+					             enableSuggestions="true"
+					             suggestionItems="{
 										path: 'suggestionModel>/'
 									 }"
-									 placeholder="Search"
-									 busyIndicatorDelay="0">
-							<suggestionItems>
-								<SuggestionItem text="{suggestionModel>name}"
-												description=" | {= ${suggestionModel>type} === 'track' ? ${suggestionModel>artists/0/name} : 'artist' }"
-												icon="{= ${suggestionModel>type} === 'track' ? ${suggestionModel>album/images/2/url} : ${suggestionModel>images/2/url} }"
-												key="{suggestionModel>name}"/>
-							</suggestionItems>
-						</SearchField>
-					<HBox width="100%">
+					             placeholder="Search"
+					             busyIndicatorDelay="0"
+					             id="searchField"
+					             visible="false">
+						<suggestionItems>
+							<SuggestionItem text="{suggestionModel>name}"
+							                description=" | {= ${suggestionModel>type} === 'track' ? ${suggestionModel>artists/0/name} : 'artist' }"
+							                icon="{= ${suggestionModel>type} === 'track' ? ${suggestionModel>album/images/2/url} : ${suggestionModel>images/2/url} }"
+							                key="{suggestionModel>name}"/>
+						</suggestionItems>
+					</SearchField>
+					<HBox width="100%" id="idIconTabBar" visible="false">
 						<IconTabBar
 								id="idIconTabBarMulti"
 								expanded="false"
@@ -103,42 +111,42 @@
 										<SegmentedButton selectedKey="month">
 											<items>
 												<SegmentedButtonItem width="8rem" text="1 Year" id="id1YearButton"
-																	 visible="true" enabled="false" press="onPress1Year"/>
+												                     visible="true" enabled="false" press="onPress1Year"/>
 												<SegmentedButtonItem width="8rem" text="6 Months" key="month"
-																	 id="id6MonthsButton" visible="true" enabled="false"
-																	 press="onPress6Months"/>
+												                     id="id6MonthsButton" visible="true" enabled="false"
+												                     press="onPress6Months"/>
 												<SegmentedButtonItem width="8rem" text="4 Weeks" id="id4WeekButton"
-																	 visible="true" enabled="false" press="onPress4Weeks"/>
+												                     visible="true" enabled="false" press="onPress4Weeks"/>
 											</items>
 										</SegmentedButton>
 										<SegmentedButton>
 											<items>
 												<SegmentedButtonItem text="Artists" id="idArtistsButton" visible="true"
-																	 enabled="false" press="onPressArtist"/>
+												                     enabled="false" press="onPressArtist"/>
 												<SegmentedButtonItem text="Genre" id="idGenreButton" visible="true"
-																	 enabled="false" press="onPressGenre"/>
+												                     enabled="false" press="onPressGenre"/>
 											</items>
 										</SegmentedButton>
 									</HBox>
 									<FlexBox width="60rem" height="{= ${artistModel>/}.length * 3.2}rem" alignItems="left"
-											 justifyContent="SpaceBetween">
+									         justifyContent="SpaceBetween">
 										<items>
 											<chart:InteractiveDonutChart selectionChanged="randomArtistSong"
-																		 id="donutChartArtist" segments="{artistModel>/}"
-																		 visible="true" displayedSegments="10">
+											                             id="donutChartArtist" segments="{artistModel>/}"
+											                             visible="true" displayedSegments="10">
 												<chart:segments>
 													<chart:InteractiveDonutChartSegment value="{artistModel>count}"
-																						displayValue="{artistModel>count}"
-																						label="{artistModel>name}"/>
+													                                    displayValue="{artistModel>count}"
+													                                    label="{artistModel>name}"/>
 												</chart:segments>
 											</chart:InteractiveDonutChart>
 											<chart:InteractiveDonutChart selectionChanged="randomGenreSong"
-																		 id="donutChartGenre"
-																		 segments="{genreCountsModel>/}" visible="false"
-																		 displayedSegments="10" press="press">
+											                             id="donutChartGenre"
+											                             segments="{genreCountsModel>/}" visible="false"
+											                             displayedSegments="10" press="press">
 												<chart:segments>
 													<chart:InteractiveDonutChartSegment value="{genreCountsModel>count}"
-																						label="{genreCountsModel>name}"/>
+													                                    label="{genreCountsModel>name}"/>
 												</chart:segments>
 											</chart:InteractiveDonutChart>
 										</items>
@@ -147,44 +155,44 @@
 								<IconTabFilter icon="sap-icon://drop-down-list">
 									<VBox>
 										<HBox height="2.5rem">
-										<SegmentedButton selectedKey="month">
+											<SegmentedButton selectedKey="month">
 												<items>
 													<SegmentedButtonItem width="8rem" text="1 Year" id="id1YearButton1"
-																		 visible="true" enabled="false" press="onPress1Year"/>
+													                     visible="true" enabled="false" press="onPress1Year"/>
 													<SegmentedButtonItem width="8rem" text="6 Months" key="month"
-																		 id="id6MonthsButton1" visible="true" enabled="false"
-																		 press="onPress6Months"/>
+													                     id="id6MonthsButton1" visible="true" enabled="false"
+													                     press="onPress6Months"/>
 													<SegmentedButtonItem width="8rem" text="4 Weeks" id="id4WeekButton1"
-																		 visible="true" enabled="false" press="onPress4Weeks"/>
+													                     visible="true" enabled="false" press="onPress4Weeks"/>
 												</items>
 											</SegmentedButton>
 										</HBox>
 										<HBox>
 											<List id="tracks"
-												  class="tracks"
-												  visible="false"
-												  busyIndicatorDelay="0"
-												  busy="true"
-												  headerText="Top 50 Tracks"
-												  items="{trackModel>/}"
-												  mode="SingleSelectMaster"
-												  focusable="true"
-												  selectionChange="onPressTopTracks">
+											      class="tracks"
+											      visible="false"
+											      busyIndicatorDelay="0"
+											      busy="true"
+											      headerText="Top 50 Tracks"
+											      items="{trackModel>/}"
+											      mode="SingleSelectMaster"
+											      focusable="true"
+											      selectionChange="onPressTopTracks">
 												<items>
 													<StandardListItem title="{trackModel>name} - {trackModel>artists/0/name}">
 													</StandardListItem>
 												</items>
 											</List>
 											<List id="artist"
-												  class="tracks"
-												  visible="false"
-												  busyIndicatorDelay="0"
-												  busy="true"
-												  headerText="Top Artists"
-												  items="{genreModel>/}"
-												  mode="SingleSelectMaster"
-												  focusable="true"
-												  selectionChange="onPressTopArtist">
+											      class="tracks"
+											      visible="false"
+											      busyIndicatorDelay="0"
+											      busy="true"
+											      headerText="Top Artists"
+											      items="{genreModel>/}"
+											      mode="SingleSelectMaster"
+											      focusable="true"
+											      selectionChange="onPressTopArtist">
 												<items>
 													<StandardListItem title="{genreModel>name} - {genreModel>genres/0/}">
 													</StandardListItem>
@@ -196,16 +204,16 @@
 								<IconTabFilter icon="sap-icon://customer-briefing">
 									<HBox>
 										<List id="relatedArtists"
-											  class="relatedArtists"
-											  headerText="Related Artists"
-											  items="{rArtistModel>/}"
-											  mode="SingleSelectMaster"
-											  focusable="true"
-											  selectionChange="onPressRelatedArtist">
+										      class="relatedArtists"
+										      headerText="Related Artists"
+										      items="{rArtistModel>/}"
+										      mode="SingleSelectMaster"
+										      focusable="true"
+										      selectionChange="onPressRelatedArtist">
 											<items>
 												<StandardListItem icon="{rArtistModel>images/2/url}"
-																  description="{rArtistModel>genres}"
-																  title="{rArtistModel>name}">
+												                  description="{rArtistModel>genres}"
+												                  title="{rArtistModel>name}">
 												</StandardListItem>
 											</items>
 										</List>

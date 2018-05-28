@@ -20,28 +20,29 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <script>
-        sap.ui.getCore().attachInit(function() {
-        	sap.ui.component({
-		        name : "com.wuerth.itensis.spotifyStatics",
-                async: true
-            }).then(function (oComponent) {
-                sap.ui.require([
-                	"sap/ui/core/ComponentContainer",
-                    "sap/m/Shell"
-                ], function (ComponentContainer, Shell) {
-                    new Shell({
-                        app: new ComponentContainer({
-                            height: "100%",
-                            component: oComponent
-                        })
-                    }).placeAt("content")
-                })
-	        })
-        });
+		sap.ui.getCore().attachInit(function() {
+			sap.ui.component({
+				name : "com.wuerth.itensis.spotifyStatics",
+				async: true
+			}).then(function (oComponent) {
+				sap.ui.require([
+					"sap/ui/core/ComponentContainer",
+					"sap/m/Shell"
+				], function (ComponentContainer, Shell) {
+					new Shell({
+						app: new ComponentContainer({
+							height: "100%",
+							component: oComponent
+						})
+					}).placeAt("content")
+				})
+			})
+		});
     </script>
 </head>
 
 <body class="sapUiBody" id="content">
+<img src="img/lg.fidget-spinner.gif" id="loadingSpinner" />
 </body>
 
 </html>
