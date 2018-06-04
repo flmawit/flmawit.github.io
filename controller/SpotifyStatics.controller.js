@@ -44,6 +44,7 @@ sap.ui.define([
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "rArtistModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "suggestionModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "timeModel");
+					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "tempoModel");
 					this._fnLoadPlaybackInformations();
 					this.async();
 				}).fail((error) => {
@@ -88,10 +89,10 @@ sap.ui.define([
 			console.log(oGenreModel)
 			var artistId = oGenreModel.getProperty("/"+id+"/uri")
 			var artistArray = artistId.split(":")
-			var id = artistArray[artistArray.length - 1]
-			console.log(id)
+			var id2 = artistArray[artistArray.length - 1]
+			console.log(id2)
 			var myAccessToken = localStorage.getItem("accessToken");
-			this.playRandomArtistSong(myAccessToken, id)
+			this.playRandomArtistSong(myAccessToken, id2)
 		},
 		onPressList: function (oEvent) {
 			console.log(oEvent)
@@ -151,7 +152,6 @@ sap.ui.define([
 			this._fnLoadPlaybackInformations()
 		},
 		randomGenreSong: async function (oEvent) { //This function takes a random genre song
-			var that = this
 			var oSegment = oEvent.getParameter("segment");
 			oSegment.setSelected(false)
 			var sGenreName = oSegment.getLabel();
@@ -220,7 +220,6 @@ sap.ui.define([
 			this.byId("idPlay").setVisible(false);
 		},
 		randomArtistSong: function (oEvent) {
-			var that = this;
 			var oSegment = oEvent.getParameter("segment");
 			oSegment.setSelected(false)
 			var sArtistName = oSegment.getLabel();
@@ -330,7 +329,6 @@ sap.ui.define([
 			});
 		},*/
 		onProgressChange: function (oEvent) {
-			var that = this;
 			var value = oEvent.getParameter("value");
 			var oPlayModel = this.getView().getModel("playModel");
 			var sDuration = oPlayModel.getProperty("/item/duration_ms")
@@ -422,6 +420,7 @@ sap.ui.define([
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "rArtistModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "suggestionModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "timeModel");
+					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "tempoModel");
 					this._fnLoadPlaybackInformations()
 				});
 			});
@@ -442,7 +441,6 @@ sap.ui.define([
 				console.log(test)
 				console.log(item)
 				if (item.type === "track") {
-					var track = item.uri
 					let oSongContext = {
 						"context_uri": item.album.uri,
 						"offset": {
@@ -581,7 +579,6 @@ sap.ui.define([
 			});
 		},
 		_playNextSong: function () {
-			var that = this;
 			var myAccessToken = localStorage.getItem("accessToken");
 			return $.ajax({
 				url: 'https://api.spotify.com/v1/me/player/next',
@@ -689,7 +686,6 @@ sap.ui.define([
 				contentType: "application/json",
 				data: JSON.stringify(oSongContext)
 			});
-			this._getAlbumInformations();
 		},
 		_pauseTrack: function (accessToken) {
 			return $.ajax({
@@ -698,17 +694,6 @@ sap.ui.define([
 					'Authorization': 'Bearer ' + accessToken
 				},
 				type: 'PUT',
-			});
-		},
-		_getTempoBackground: function(accessToken, id){
-			return $.ajax({
-				url: 'https://api.spotify.com/v1/audio-analysis/'+id,
-				headers: {
-					'Authorization': 'Bearer ' + accessToken
-				},
-				type: 'GET',
-				dataType: "json",
-				contentType: "application/json",
 			});
 		},
 
@@ -875,15 +860,13 @@ sap.ui.define([
 					if (response.item.uri !== that.nowPlaying){
 						that.nowPlaying = response.item.uri
 						that.onFetchAlbumInfo();
-						var id = oPlayModel.getProperty("/item/id")
-						that._getTempoBackground(myAccessToken, id);
+						console.log(oPlayModel)
 					}
 					resolve();
 				})
 			})
 		},
 		_fnloadRelatedArtists: function() {
-			var myAccessToken = localStorage.getItem("accessToken");
 			var that = this
 			var oRelatedArtists = this.getView().getModel("rArtistModel")
 			console.log("vvv")

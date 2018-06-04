@@ -22,8 +22,8 @@
 						</VBox>
 					</HBox>
 					<HBox width="100%" height="25rem" class="player" id="idPlayerContent" visible="false">
-						<VBox>
-							<Image src="{playModel>/item/album/images/1/url}" class="images" id="Cover"></Image>
+						<VBox class="playerContent">
+							<Image src="{playModel>/item/album/images/1/url}"  id="Cover"></Image><!--class="images"-->
 							<HBox>
 								<!--<SegmentedButton selectedKey="Play">
                                     <items>
@@ -31,26 +31,24 @@
                                         <SegmentedButtonItem width="6rem" text="Pause" id="idPause" visible="true" enabled="false" press="onPauseTrack"/>
                                     </items>
                                 </SegmentedButton>--><!--is_playing-->
-								<Button press="onPressBack" icon="sap-icon://media-rewind" class="controler"></Button>
+								<Button press="onPressBack" icon="sap-icon://media-rewind" ></Button><!--class="buttonBack"-->
 								<Button width="6rem" icon="sap-icon://media-play" id="idPlay"
 								        visible="{= !${playModel>/is_playing}}" enabled="false"
-								        press="onPressPlay"></Button>
+								        press="onPressPlay" ></Button><!--class="buttonPlay"-->
 								<Button width="6rem" icon="sap-icon://media-pause" id="idPause"
-								        visible="{playModel>/is_playing}" enabled="false" press="onPauseTrack"></Button>
-								<Button press="onPressNext" icon="sap-icon://media-forward"></Button>
+								        visible="{playModel>/is_playing}" enabled="false" press="onPauseTrack" ></Button><!--class="buttonPlay"-->
+								<Button press="onPressNext" icon="sap-icon://media-forward" ></Button><!--class="buttonNext"-->
 							</HBox>
 							<Slider liveChange="onVolumeChange" getMax="100" getMin="0"
-							        value="{playModel>/device/volume_percent}" width="22rem" class="slider"></Slider>
-						</VBox>
-						<VBox class="albumTitles">
-							<Title text="{playModel>/item/artists/0/name} - {albumModel>/name}"></Title>
+							        value="{playModel>/device/volume_percent}" width="300px" ></Slider><!--class="slider"-->
 						</VBox>
 						<VBox class="albumSongs">
+							<Title class="albumTitle" text="{playModel>/item/artists/0/name} - {albumModel>/name}"></Title>
 							<ScrollContainer
+									height="90%"
 									horizontal="false"
 									vertical="true"
-									height="80%"
-									width="100%">
+									class="scrollcontainer">
 								<List id="album"
 								      items="{albumModel>/tracks}"
 								      horizontal="true"
@@ -66,22 +64,22 @@
 							</ScrollContainer>
 						</VBox>
 					</HBox>
-					<HBox id="idPlayInformation" visible="false">
+					<HBox class="durationSlider" id="idPlayInformation" visible="false">
 						<HBox width="20%" justifyContent="End" alignItems="End">
 							<Label text="{timeModel>/progress}" class="labels"></Label>
 						</HBox>
 						<VBox width="60%" justifyContent="Center">
 							<HBox justifyContent="Center">
-								<Label text="{playModel>/item/name} - {playModel>/item/artists/0/name}"></Label>
+								<Label text="{playModel>/item/name} - {playModel>/item/artists/0/name}" class="titleLable"></Label>
 							</HBox>
 							<Slider liveChange="onProgressChange" getMax="100" getMin="0"
-							        value="{= ( 100 / ${playModel>/item/duration_ms} ) * ${playModel>/progress_ms} }" width="45rem" class=""></Slider>
+							        value="{= ( 100 / ${playModel>/item/duration_ms} ) * ${playModel>/progress_ms} }" width="100%" class=""></Slider>
 						</VBox>
 						<HBox width="20%" justifyContent="Start" alignItems="End">
 							<Label text="{timeModel>/duration}" class="labels"></Label>
 						</HBox>
 					</HBox>
-					<SearchField width="90%" class="sapUiSmallMargin"
+					<SearchField class="sapUiSmallMargin"
 					             search="fnHandleSearch"
 					             enableSuggestions="true"
 					             suggestionItems="{
