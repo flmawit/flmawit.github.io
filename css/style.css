@@ -16,12 +16,12 @@
 .text {
 	text-align: center;
 }
-span.sapMBtnInner.sapMBtnEmphasized{
-	color: #1ed760;
-	text-shadow: none;
+ span.sapMBtnInner.sapMBtnEmphasized{
+	 color: #1ed760;
+	 text-shadow: none;
 	background: #ffffff;
 	border-color: #ffffff
-;
+ ;
 }
 .sapMFlexItem{
 	position: static;
@@ -347,6 +347,20 @@ html.sap-desktop
 .tracks {
 	margin-top: 5rem;
 }
+
+.hBoxFullWidth > .sapMFlexItemAlignAuto {
+	min-width: 100%!important;
+	max-width: 100%!important;
+}
+
+.fullWidth {
+	min-width: 100%;
+	max-width: 100%;
+}
+.list {
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+}
 .song {
 	color: #1ed760;
 }
@@ -395,9 +409,9 @@ html.sap-desktop
 .sapMFlexBoxBGTransparent sapMFlexItem sapMFlexItemAlignAuto{
 	min-width: 100%;
 }
-.sapMITB {
+/*.sapMITB {
 	width: 80rem;
-}
+}*/
 .sapMLIBHoverable.sapMLIBSelected:hover {
 	background: #494949;
 }
@@ -488,25 +502,60 @@ html.sap-desktop
 
 #loadingSpinner {
 	display: block;
+	margin-top: 10vh;
 	margin-left: auto;
 	margin-right: auto;
-	width: 30rem;
+	width: 35vw;
 }
 .scrollcontainer{
 	height: 90%;
 	width: 400px;
 }
+
+.buttonWrap {
+	flex-wrap: wrap;
+}
+
+.chartContainer {
+	width: 100%
+}
+.chartContainer > .sapMFlexItemAlignAuto {
+	min-width: 100%;
+	max-width: 100%;
+}
+
+/*.donutChartArtist {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
+.donutChartArtist > div {
+	order: 0;
+	flex-grow: 1;
+	flex-shrink: 1;
+	flex-basis: auto;
+	min-height: auto;
+	min-width: auto;
+}*/
+
 @media (max-width: 1200px) {
 	/* For mobile phones: */
 	.logo {
-		right: 605px;
+		right: 50vw;
+	}
+}
+@media (max-width: 900px) {
+	/* For mobile phones: */
+	.logo {
+		right: 45vw;
 	}
 }
 
 @media (max-width: 500px) {
 	/* For mobile phones: */
 	.logo {
-		right: 200px;
+		right: 40vw;
 		top: 55px;
 		max-height: 60%;
 	}
@@ -542,10 +591,10 @@ html.sap-desktop
 		justify-content: baseline;
 	}
 	.sapMTitle {
-		padding-left: 1rem;!important;
-		padding-right: 1rem;!important;
+		padding-left: 1rem!important;
+		padding-right: 1rem!important;
 	}
-	.scrollcontatiner {
+	.scrollcontainer {
 		height: 80%!important;
 		width: 330px!important;
 		padding-left: 1rem;
@@ -553,14 +602,19 @@ html.sap-desktop
 	.sapMPage>.sapMPageHeader + section, .sapMPage>.sapMPageSubHeader + section, .sapMPage>.sapMPageHeader + .sapUiHiddenPlaceholder + section {
 		top: 10rem;
 	}
-	#loadingSpinner {
-		margin-left: 0px;
-		margin-right: 0px;
-		max-width: 20%;
-	}
 	.text {
 		text-align: center;
 		padding-top: 3rem;
+	}
+	.top50 {
+		width: 56%!important;
+		margin-left: 8rem;
+	}
+	.sapSuiteIDCLegend {
+		width: 25%
+	}
+	.sapSuiteIDC {
+		width: 560px!important;
 	}
 
 }

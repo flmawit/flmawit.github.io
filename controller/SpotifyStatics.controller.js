@@ -187,7 +187,7 @@ sap.ui.define([
 			console.log(artistId)
 			var myAccessToken = localStorage.getItem("accessToken");
 			this.playRandomArtistSong(myAccessToken, artistId)
-		},
+			},
 		playRandomArtistSong: function (accessToken, artistId) {
 			var that = this
 			this._getTopArtistSong(artistId, accessToken).then(function(response) {
@@ -393,7 +393,7 @@ sap.ui.define([
 				'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
 			);
 			this._reload()
-		},
+			},
 		/**
 		 * Fetches user information from the spotify api.
 		 *
@@ -444,7 +444,7 @@ sap.ui.define([
 					let oSongContext = {
 						"context_uri": item.album.uri,
 						"offset": {
-							"position": item.track_number -1
+						"position": item.track_number -1
 						}
 					}
 					var myAccessToken = localStorage.getItem("accessToken")
@@ -857,11 +857,11 @@ sap.ui.define([
 			return new Promise(function (resolve) {
 				that._getPlayback(myAccessToken).then(function(response) {
 					oPlayModel.setProperty("/", response);
-					if (response.item.uri !== that.nowPlaying){
-						that.nowPlaying = response.item.uri
-						that.onFetchAlbumInfo();
-						console.log(oPlayModel)
-					}
+				if (response.item.uri !== that.nowPlaying){
+					that.nowPlaying = response.item.uri
+					that.onFetchAlbumInfo();
+					console.log(oPlayModel)
+				}
 					resolve();
 				})
 			})
@@ -883,22 +883,22 @@ sap.ui.define([
 			})
 		},
 		_fnLoadGenre: function () {
-			var that = this
-			this.byId("artist").setVisible(true);
-			var myAccessToken = localStorage.getItem("accessToken");
-			this._getGenre(myAccessToken, this.chosenTimeRange).then(function(response) {
-				console.log(response)
-				var oGenre = new sap.ui.model.json.JSONModel(response.items);
-				that.byId("artist").setBusy(false);
-				that.getView().setModel(oGenre, "genreModel");
-				console.log(that.getView().getModel("genreModel"));
-				that.byId("id4WeekButton").setEnabled(true);
-				that.byId("id1YearButton").setEnabled(true);
-				that.byId("id6MonthsButton").setEnabled(true);
-				that._diagramGenres();
-			})},
-	});
-	/*
-	* End of Helper Functions
-	*/
+				var that = this
+				this.byId("artist").setVisible(true);
+				var myAccessToken = localStorage.getItem("accessToken");
+				this._getGenre(myAccessToken, this.chosenTimeRange).then(function(response) {
+					console.log(response)
+					var oGenre = new sap.ui.model.json.JSONModel(response.items);
+					that.byId("artist").setBusy(false);
+					that.getView().setModel(oGenre, "genreModel");
+					console.log(that.getView().getModel("genreModel"));
+					that.byId("id4WeekButton").setEnabled(true);
+					that.byId("id1YearButton").setEnabled(true);
+					that.byId("id6MonthsButton").setEnabled(true);
+					that._diagramGenres();
+				})},
+		});
+		/*
+		* End of Helper Functions
+		*/
 });
