@@ -47,6 +47,10 @@ sap.ui.define([
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "tempoModel");
 					this._fnLoadPlaybackInformations();
 					this.async();
+					setTimeout(() => {
+						var sSearchFieldId = this.byId("searchField").getId();
+						$("#"+sSearchFieldId).context.forms["0"]["0"].removeAttribute("readonly")
+					}, 1000)
 				}).fail((error) => {
 					// the access token is not valid anymore, the user has to login again.
 					MessageToast.show("Your session has expired, please log in again.", {duration: 5000});
@@ -187,7 +191,7 @@ sap.ui.define([
 			console.log(artistId)
 			var myAccessToken = localStorage.getItem("accessToken");
 			this.playRandomArtistSong(myAccessToken, artistId)
-			},
+		},
 		playRandomArtistSong: function (accessToken, artistId) {
 			var that = this
 			this._getTopArtistSong(artistId, accessToken).then(function(response) {
@@ -393,7 +397,7 @@ sap.ui.define([
 				'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + width + ', height=' + height + ', top=' + top + ', left=' + left
 			);
 			this._reload()
-			},
+		},
 		/**
 		 * Fetches user information from the spotify api.
 		 *
@@ -422,6 +426,10 @@ sap.ui.define([
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "timeModel");
 					this.getView().setModel(new sap.ui.model.json.JSONModel({}), "tempoModel");
 					this._fnLoadPlaybackInformations()
+					setTimeout(() => {
+						var sSearchFieldId = this.byId("searchField").getId();
+						$("#"+sSearchFieldId).context.forms["0"]["0"].removeAttribute("readonly")
+					}, 1000)
 				});
 			});
 		},
@@ -444,7 +452,7 @@ sap.ui.define([
 					let oSongContext = {
 						"context_uri": item.album.uri,
 						"offset": {
-						"position": item.track_number -1
+							"position": item.track_number -1
 						}
 					}
 					var myAccessToken = localStorage.getItem("accessToken")
@@ -857,11 +865,11 @@ sap.ui.define([
 			return new Promise(function (resolve) {
 				that._getPlayback(myAccessToken).then(function(response) {
 					oPlayModel.setProperty("/", response);
-				if (response.item.uri !== that.nowPlaying){
-					that.nowPlaying = response.item.uri
-					that.onFetchAlbumInfo();
-					console.log(oPlayModel)
-				}
+					if (response.item.uri !== that.nowPlaying){
+						that.nowPlaying = response.item.uri
+						that.onFetchAlbumInfo();
+						console.log(oPlayModel)
+					}
 					resolve();
 				})
 			})
@@ -883,22 +891,22 @@ sap.ui.define([
 			})
 		},
 		_fnLoadGenre: function () {
-				var that = this
-				this.byId("artist").setVisible(true);
-				var myAccessToken = localStorage.getItem("accessToken");
-				this._getGenre(myAccessToken, this.chosenTimeRange).then(function(response) {
-					console.log(response)
-					var oGenre = new sap.ui.model.json.JSONModel(response.items);
-					that.byId("artist").setBusy(false);
-					that.getView().setModel(oGenre, "genreModel");
-					console.log(that.getView().getModel("genreModel"));
-					that.byId("id4WeekButton").setEnabled(true);
-					that.byId("id1YearButton").setEnabled(true);
-					that.byId("id6MonthsButton").setEnabled(true);
-					that._diagramGenres();
-				})},
-		});
-		/*
-		* End of Helper Functions
-		*/
+			var that = this
+			this.byId("artist").setVisible(true);
+			var myAccessToken = localStorage.getItem("accessToken");
+			this._getGenre(myAccessToken, this.chosenTimeRange).then(function(response) {
+				console.log(response)
+				var oGenre = new sap.ui.model.json.JSONModel(response.items);
+				that.byId("artist").setBusy(false);
+				that.getView().setModel(oGenre, "genreModel");
+				console.log(that.getView().getModel("genreModel"));
+				that.byId("id4WeekButton").setEnabled(true);
+				that.byId("id1YearButton").setEnabled(true);
+				that.byId("id6MonthsButton").setEnabled(true);
+				that._diagramGenres();
+			})},
+	});
+	/*
+	* End of Helper Functions
+	*/
 });

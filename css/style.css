@@ -16,12 +16,12 @@
 .text {
 	text-align: center;
 }
- span.sapMBtnInner.sapMBtnEmphasized{
-	 color: #1ed760;
-	 text-shadow: none;
+span.sapMBtnInner.sapMBtnEmphasized{
+	color: #1ed760;
+	text-shadow: none;
 	background: #ffffff;
 	border-color: #ffffff
- ;
+;
 }
 .sapMFlexItem{
 	position: static;
@@ -121,7 +121,7 @@
 	max-width: 40%;
 }
 .sapMIBar-CTX .sapMTitle {
-	background-image: url(/img/logo.png);
+	background-image: url(/img/logoPS.png);
 
 
 	/*color: #1ED760;
@@ -616,5 +616,13 @@ html.sap-desktop
 	.sapSuiteIDC {
 		width: 560px!important;
 	}
+	.sapContrast.sapMIBar-CTX.sapMFooter-CTX, .sapContrast .sapMIBar-CTX.sapMFooter-CTX {
+		background-color: #1ed760;
+		border-top: 1px solid #363636;
+	}
+	.sapMDialog.sapMPopup-CTX>header.sapMHeader-CTX, .sapMDialog.sapMPopup-CTX>header.sapMSubHeader-CTX {
+		background-color: #363636;
+	}
+
 
 }
